@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WIELKI FORMAT | Spieki kwarcowe i montaż pod klucz</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Lexend+Deca:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #0f0f0f;
+            --accent: #c5a358;
+        }
+        
+        /* Глобальное исправление скролла */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Lexend Deca', sans-serif;
+            background-color: #ffffff;
+            color: var(--primary);
+            /* Оптимизация шрифтов для мобильных */
+            -webkit-text-size-adjust: 100%;
+        }
+
+        .syne { font-family: 'Syne', sans-serif; }
+
+        /* Адаптивные заголовки: на мобильных меньше, на десктопе - как было */
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            line-height: 1.1;
+        }
+
+        /* Убираем боковой скролл для всех контейнеров */
+        .container-fix {
+            width: 100%;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.8) 100%);
+        }
+
+        /* Плавное появление */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Ukrywa paski przewijania, zachowując funkcjonalność swipe */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+
+</head>
+<body class="antialiased selection:bg-black selection:text-white">
+
+    <header id="nav" class="fixed w-full z-[100] transition-all duration-500 py-4 md:py-6 px-4 md:px-12">
+        <div class="max-w-[1800px] mx-auto flex justify-between items-center">
+            
+            <div class="flex items-center gap-3 group cursor-pointer">
+              <a href="#top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="flex items-center space-x-3 group">
+                <div id="logo-icon" class="bg-[#c5a358] text-white w-10 h-10 md:w-12 md:h-12 flex items-center justify-center shrink-0 shadow-sm overflow-hidden transition-all duration-300">
+                    <span class="syne text-xl md:text-2xl font-extrabold tracking-tighter leading-none block transform translate-y-[1px]">W</span>
+                </div>
+                
+                <div class="syne flex flex-col leading-[0.8] uppercase font-extrabold tracking-tighter">
+                    <span class="text-[14px] md:text-[16px] text-white">Wielki</span>
+                    <span class="text-[14px] md:text-[16px] text-white">Format</span>
+                </div>
+              </a>
+            </div>
+            
+            <nav class="hidden md:flex items-center gap-10 text-[10px] uppercase tracking-[0.3em] font-bold text-white">
+                <a href="#atuty" class="hover:text-[#c5a358] transition-colors duration-300">Atuty</a>
+                <a href="#realizacje" class="hover:text-[#c5a358] transition-colors duration-300">Realizacje</a>
+                <a href="#kontakt" class="bg-[#c5a358] text-black px-8 py-4 rounded-full hover:scale-105 transition-all duration-300 active:scale-95 shadow-lg">
+                    Kontakt
+                </a>
+            </nav>
+
+            <button class="md:hidden text-white p-2 focus:outline-none" onclick="toggleMobileMenu()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <div id="mobile-menu" class="fixed inset-0 z-[120] bg-black translate-x-full transition-transform duration-500 ease-in-out md:hidden overflow-y-auto">
+        <div class="flex flex-col h-full p-6 md:p-12">
+            <div class="flex justify-end mb-8">
+                <button onclick="toggleMobileMenu()" class="text-white p-2 hover:text-[#c5a358] transition-colors">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <nav class="flex flex-col gap-6 syne text-[24px] uppercase font-bold tracking-widest text-white">
+                <a href="#atuty" onclick="toggleMobileMenu()" class="hover:text-[#c5a358] transition-colors py-2 border-b border-white/5">Atuty</a>
+                <a href="#realizacje" onclick="toggleMobileMenu()" class="hover:text-[#c5a358] transition-colors py-2 border-b border-white/5">Realizacje</a>
+                
+                <a href="#kontakt" onclick="toggleMobileMenu()" class="mt-4 bg-[#c5a358] text-black px-8 py-5 rounded-full text-center text-[11px] tracking-[0.3em] font-bold uppercase hover:bg-white transition-all duration-300 shadow-lg">
+                    Kontakt
+                </a>
+            </nav>
+
+            <div class="mt-auto pt-12">
+                
+                <p class="text-zinc-500 text-[10px] uppercase tracking-[0.3em] mb-4 font-bold">+48 787 881 549</p>
+                <a href="mailto:kontakt@wielkiformat.pl" class="text-white text-lg font-lexend font-light hover:text-[#c5a358] transition-colors">
+                    kontakt@wielkiformat.pl
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <section class="relative min-h-screen flex items-center justify-center md:items-end md:justify-start pb-12 md:pb-24 px-4 md:px-12 overflow-hidden bg-white">
+        
+        <div class="absolute inset-0 z-0">
+            <img 
+                src="Image_kw6vm5kw6vm5kw6v.png" 
+                alt="Wielkoformatowe płyty" 
+                class="w-full h-full object-cover"
+            >
+            <div class="absolute inset-0 hero-overlay"></div>
+        </div>
+
+        <div class="max-w-[1800px] mx-auto w-full relative z-10">
+            <div class="flex flex-col items-center text-center md:items-start md:text-left reveal active">
+                
+                <div class="flex flex-wrap justify-center md:justify-start gap-4 md:gap-8 mb-6 text-[9px] md:text-[10px] uppercase tracking-[0.3em] font-bold">
+                    <span class="text-[#c5a358]">Wizja</span>
+                    <span class="text-white/60">Materiał</span>
+                    <span class="text-white/60">Realizacja</span>
+                </div>
+
+                <h1 class="syne text-white hero-title uppercase mb-6">
+                    Spieki Kwarcowe <br class="hidden md:block"> 
+                    <span class="text-white">pod klucz</span>
+                </h1>
+
+                <div class="inline-block bg-[#c5a358] text-white px-8 py-3 rounded-full text-[10px] md:text-[11px] font-bold tracking-[0.2em] uppercase mb-10 shadow-xl shadow-[#c5a358]/20 transition-transform hover:scale-105">
+                    od 800 zł / m²
+                </div>
+                
+                <div class="flex flex-col md:flex-row gap-8 md:gap-12 items-center">
+                    <p class="max-w-md text-sm md:text-lg text-white/90 leading-relaxed font-light">
+                        Wyselekcjonowane spieki kwarcowe od czołowych światowych producentów.
+                        Kompletna obsługa inwestycji: od importu po precyzyjny montaż.
+                    </p>
+                    
+                    <a href="#kontakt" class="group flex items-center gap-4 syne uppercase text-[10px] tracking-[0.2em] font-bold text-white border-t border-b py-4 md:py-0 md:border-t-0 md:border-b-0 md:border-l border-[#c5a358] md:pl-8 transition-all">
+                        <span class="w-10 h-10 md:w-12 md:h-12 rounded-full border border-[#c5a358] flex items-center justify-center group-hover:bg-[#c5a358] transition-all duration-500">↓</span>
+                        Wyceń swój projekt
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 md:py-32 px-4 md:px-12 relative overflow-hidden bg-white">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80" 
+                 class="w-full h-full object-cover opacity-15 grayscale transition-opacity duration-1000" alt="Modern Interior">
+            
+            <div class="absolute inset-0 bg-gradient-to-b from-white via-white/20 to-white"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-white/40 via-transparent to-white/40"></div>
+        </div>
+
+        <div class="max-w-[1800px] mx-auto relative z-10">
+            
+            <div class="reveal mb-12 md:mb-20 relative inline-block group">
+                <h2 class="syne text-3xl md:text-5xl uppercase tracking-tighter leading-none text-black pb-4 md:pb-6">
+                    Standard Premium <br>
+                </h2>
+                
+                <div class="h-[2px] bg-[#c5a358]/20 w-full relative">
+                    <div class="absolute inset-0 bg-[#c5a358] w-full origin-left transition-transform duration-1000 delay-300 scale-x-0 group-[.active]:scale-x-100"></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+                
+                <div class="reveal relative aspect-[3/4] md:aspect-[4/5] rounded-2xl overflow-hidden group shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border border-white/50 backdrop-blur-[2px]">
+                    <img src="482218493_28680630411585276_2208041147372520424_n.jpg" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-4 md:p-10">
+                        <span class="text-[#c5a358] syne text-[10px] uppercase tracking-[0.3em] mb-3 block font-bold">01</span>
+                        <h3 class="syne text-white text-lg md:text-2xl uppercase leading-tight mb-3 h-[44px] md:h-[60px] flex items-end">
+                            Własny <br>Import
+                        </h3>
+                        <div class="min-h-[45px] md:min-h-[60px]">
+                            <p class="text-white/60 text-[10px] md:text-xs leading-relaxed font-light max-w-[200px] font-lexend">
+                                Bezpośrednia selekcja płyt we Włoszech. Gwarancja najlepszej ceny bez pośredników.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal relative aspect-[3/4] md:aspect-[4/5] rounded-2xl overflow-hidden group shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border border-white/50 backdrop-blur-[2px]">
+                    <img src="2026-03-01 213609.png" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-4 md:p-10">
+                        <span class="text-[#c5a358] syne text-[10px] uppercase tracking-[0.3em] mb-3 block font-bold">02</span>
+                        <h3 class="syne text-white text-lg md:text-2xl uppercase leading-tight mb-3 h-[44px] md:h-[60px] flex items-end">
+                            Efekt <br>Bookmatch
+                        </h3>
+                        <div class="min-h-[45px] md:min-h-[60px]">
+                            <p class="text-white/60 text-[10px] md:text-xs leading-relaxed font-light max-w-[200px] font-lexend">
+                                Perfekcyjne, lustrzane dopasowanie użylenia spieków na ścianach i wyspach.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal relative aspect-[3/4] md:aspect-[4/5] rounded-2xl overflow-hidden group shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border border-white/50 backdrop-blur-[2px]">
+                    <img src="Spieki-i-Kwarce-Mediterraneosurface-Luxury-Collection-12-mm-Tahiti-2.png" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-4 md:p-10">
+                        <span class="text-[#c5a358] syne text-[10px] uppercase tracking-[0.3em] mb-3 block font-bold">03</span>
+                        <h3 class="syne text-white text-lg md:text-2xl uppercase leading-tight mb-3 h-[44px] md:h-[60px] flex items-end">
+                            Wsparcie <br>Projektowe
+                        </h3>
+                        <div class="min-h-[45px] md:min-h-[60px]">
+                            <p class="text-white/60 text-[10px] md:text-xs leading-relaxed font-light max-w-[200px] font-lexend">
+                                Doradztwo techniczne na etapie projektu. Dobieramy konstrukcje i chemię.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal relative aspect-[3/4] md:aspect-[4/5] rounded-2xl overflow-hidden group shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] border border-white/50 backdrop-blur-[2px]">
+                    <img src="26-03-01 214031.png" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 right-0 p-4 md:p-10">
+                        <span class="text-[#c5a358] syne text-[10px] uppercase tracking-[0.3em] mb-3 block font-bold">04</span>
+                        <h3 class="syne text-white text-lg md:text-2xl uppercase leading-tight mb-3 h-[44px] md:h-[60px] flex items-end">
+                            Precyzyjny <br>Montaż
+                        </h3>
+                        <div class="min-h-[45px] md:min-h-[60px]">
+                            <p class="text-white/60 text-[10px] md:text-xs leading-relaxed font-light max-w-[200px] font-lexend">
+                                Odpowiedzialność za cały proces: od pomiaru po finalne fugowanie płyt.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+ 
+    <section id="proces" class="py-16 md:py-32 px-4 md:px-12 relative overflow-hidden bg-[#1a1a1a]">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80" 
+                 class="w-full h-full object-cover opacity-25 grayscale hover:grayscale-0 transition-all duration-1000" alt="Modern House Background">
+            <div class="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] via-[#1a1a1a]/70 to-[#1a1a1a]"></div>
+            <div class="absolute inset-0 bg-black/20"></div>
+        </div>
+
+        <div class="max-w-[1800px] mx-auto relative z-10">
+            
+            <div class="reveal mb-12 md:mb-20 relative inline-block group">
+                <h2 class="syne text-3xl md:text-5xl uppercase tracking-tighter leading-none text-white pb-4 md:pb-6">
+                    Model realizacji <br>
+                    projektu
+                </h2>
+                <div class="h-[2px] bg-[#c5a358] w-full"></div>
+            </div>
+
+            <div class="reveal mb-16 md:mb-24 w-full aspect-[16/10] md:aspect-[21/9] overflow-hidden bg-zinc-900 rounded-2xl shadow-2xl">
+                <img src="Image_yeht6eyeht6eyeht.png" 
+                     class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
+                     alt="Proces Realizacji">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 mb-20 md:mb-32">
+                
+                <div class="reveal pl-6 border-l-2 border-[#c5a358]/30 hover:border-[#c5a358] transition-colors">
+                    <span class="text-[#c5a358] syne text-[10px] uppercase tracking-widest mb-4 block font-bold">Krok 01</span>
+                    <h3 class="syne text-xl text-white uppercase mb-4 md:h-[60px] flex items-start">Wizja i <br>materiał</h3>
+                    <p class="text-zinc-400 text-sm font-lexend font-light leading-relaxed">Analizujemy projekt, dobieramy spieki z naszej selekcji i przygotowujemy precyzyjny kosztorys.</p>
+                </div>
+
+                <div class="reveal pl-6 border-l-2 border-[#c5a358]/30 hover:border-[#c5a358] transition-colors">
+                    <span class="text-[#c5a358] syne text-[10px] uppercase tracking-widest mb-4 block font-bold">Krok 02</span>
+                    <h3 class="syne text-xl text-white uppercase mb-4 md:h-[60px] flex items-start">Logistyka <br>i transport</h3>
+                    <p class="text-zinc-400 text-sm font-lexend font-light leading-relaxed">Bierzemy na siebie pełną odpowiedzialność za transport i bezpieczne dostarczenie materiałów.</p>
+                </div>
+
+                <div class="reveal pl-6 border-l-2 border-[#c5a358]/30 hover:border-[#c5a358] transition-colors">
+                    <span class="text-[#c5a358] syne text-[10px] uppercase tracking-widest mb-4 block font-bold">Krok 03</span>
+                    <h3 class="syne text-xl text-white uppercase mb-4 md:h-[60px] flex items-start">Obróbka <br>i detale</h3>
+                    <p class="text-zinc-400 text-sm font-lexend font-light leading-relaxed">Własny park maszynowy i manualne wykończenie krawędzi (cięcie 45°) gwarantują najwyższą jakość.</p>
+                </div>
+
+                <div class="reveal pl-6 border-l-2 border-[#c5a358]/30 hover:border-[#c5a358] transition-colors">
+                    <span class="text-[#c5a358] syne text-[10px] uppercase tracking-widest mb-4 block font-bold">Krok 04</span>
+                    <h3 class="syne text-xl text-white uppercase mb-4 md:h-[60px] flex items-start">Instalacje <br>i montaż</h3>
+                    <p class="text-zinc-400 text-sm font-lexend font-light leading-relaxed">Kompleksowa realizacja oznacza, że wszystkie komunikacje — hydraulika oraz elektryka — są realizowane w całości po naszej stronie.</p>
+                </div>
+
+                <div class="reveal pl-6 border-l-2 border-[#c5a358]/30 hover:border-[#c5a358] transition-colors">
+                    <span class="text-[#c5a358] syne text-[10px] uppercase tracking-widest mb-4 block font-bold">Krok 05</span>
+                    <h3 class="syne text-xl text-white uppercase mb-4 md:h-[60px] flex items-start">Czysty <br>montaż</h3>
+                    <p class="text-zinc-400 text-sm font-lexend font-light leading-relaxed">Finalna instalacja przez certyfikowane ekipy. Przejmujemy pełną odpowiedzialność za efekt końcowy.</p>
+                </div>
+
+            </div>
+
+            <div class="reveal flex flex-col md:flex-row items-center justify-between gap-8 p-8 md:p-14 border border-white/5 bg-[#242424]/60 backdrop-blur-md relative overflow-hidden rounded-r-2xl md:rounded-r-[3rem]">
+                <div class="absolute left-0 top-0 h-full w-[4px] bg-[#c5a358]"></div>
+                    
+                <div class="max-w-2xl text-left">
+                        <h4 class="syne text-2xl md:text-3xl uppercase mb-4 text-white font-bold">Gwarancja terminu i jakości</h4>
+                        <p class="text-zinc-400 font-lexend font-light text-sm md:text-base leading-relaxed">
+                            Dzięki kompleksowemu podejściu „pod klucz” eliminujemy marże pośredników, co pozwala na 
+                            <span class="text-[#c5a358] font-semibold">oszczędność budżetu nawet do 40%</span>. 
+                            Przejmujemy pełną odpowiedzialność za każdy etap realizacji projektu.
+                        </p>
+                </div>
+
+                <div class="w-full md:w-auto flex justify-center md:block shrink-0">
+                    <a href="#kontakt" class="group inline-flex items-center justify-start gap-6 syne uppercase text-[11px] tracking-[0.2em] font-bold bg-[#c5a358] text-black px-10 py-6 rounded-full hover:bg-white transition-all duration-500 whitespace-nowrap">
+                        Rozpocznij projekt
+                        <span class="transition-transform group-hover:translate-x-2">→</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="atuty" class="py-16 md:py-32 px-4 md:px-12 relative overflow-hidden bg-white">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80" 
+                 class="w-full h-full object-cover opacity-15 grayscale" alt="Luxury Interior Texture">
+            <div class="absolute inset-0 bg-gradient-to-b from-white via-white/40 to-white"></div>
+        </div>
+
+        <div class="max-w-[1800px] mx-auto relative z-10">
+            
+            <div class="reveal mb-12 md:mb-20 relative inline-block group">
+                <h2 class="syne text-3xl md:text-5xl uppercase tracking-tighter leading-none text-black pb-4 md:pb-6">
+                    Dlaczego warto <br>
+                    nam zaufać
+                </h2>
+                <div class="h-[2px] bg-[#c5a358] w-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+                
+                <div class="reveal group border-l-2 border-[#c5a358]/20 hover:border-[#c5a358] transition-all duration-500 pl-8 py-4">
+                    <div class="aspect-[16/9] overflow-hidden mb-8 reveal rounded-2xl bg-white shadow-lg border border-zinc-100">
+                        <img src="Image_ng2ftzng2ftzng2f.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Doświadczenie">
+                    </div>
+                    <span class="text-[#c5a358] syne text-[10px] uppercase tracking-[0.3em] mb-4 block font-bold">01 / Doświadczenie</span>
+                    <h3 class="syne text-2xl md:text-3xl uppercase text-black mb-6 md:h-[70px] flex items-start">Wieloletnie doświadczenie <br>w branży</h3>
+                    <p class="text-zinc-600 font-lexend font-light leading-relaxed max-w-xl">
+                        Nasza wiedza pozwala nam na realizację nawet najbardziej skomplikowanych projektów. Doskonale znamy specyfikę spieków kwarcowych.
+                    </p>
+                </div>
+
+                <div class="reveal group border-l-2 border-[#c5a358]/20 hover:border-[#c5a358] transition-all duration-500 pl-8 py-4">
+                    <div class="aspect-[16/9] overflow-hidden mb-8 reveal rounded-2xl bg-white shadow-lg border border-zinc-100">
+                        <img src="Image_tivp8ytivp8ytivp.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Technologia">
+                    </div>
+                    <span class="text-[#c5a358] syne text-[10px] uppercase tracking-[0.3em] mb-4 block font-bold">02 / Technologia</span>
+                    <h3 class="syne text-2xl md:text-3xl uppercase text-black mb-6 md:h-[70px] flex items-start">Nowoczesny park <br>maszynowy</h3>
+                    <p class="text-zinc-600 font-lexend font-light leading-relaxed max-w-xl">
+                        Wykorzystujemy zaawansowane technologie obróbki, co pozwala na uzyskanie idealnych krawędzi i precyzyjnych wymiarów płyt.
+                    </p>
+                </div>
+
+                <div class="reveal group border-l-2 border-[#c5a358]/20 hover:border-[#c5a358] transition-all duration-500 pl-8 py-4">
+                    <div class="aspect-[16/9] overflow-hidden mb-8 reveal rounded-2xl bg-white shadow-lg border border-zinc-100">
+                        <img src="Image_9gkn629gkn629gkn.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Wsparcie">
+                    </div>
+                    <span class="text-[#c5a358] syne text-[10px] uppercase tracking-[0.3em] mb-4 block font-bold">03 / Wsparcie</span>
+                    <h3 class="syne text-2xl md:text-3xl uppercase text-black mb-6 md:h-[70px] flex items-start">Indywidualne podejście <br>do projektu</h3>
+                    <p class="text-zinc-600 font-lexend font-light leading-relaxed max-w-xl">
+                        Każdy klient i każda inwestycja są dla nas wyjątkowe. Słuchamy Twoich potrzeb i doradzamy najlepsze rozwiązania techniczne.
+                    </p>
+                </div>
+
+                <div class="reveal group border-l-2 border-[#c5a358]/20 hover:border-[#c5a358] transition-all duration-500 pl-8 py-4">
+                    <div class="aspect-[16/9] overflow-hidden mb-8 reveal rounded-2xl bg-white shadow-lg border border-zinc-100">
+                        <img src="post_13228_p4.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Kompleksowość">
+                    </div>
+                    <span class="text-[#c5a358] syne text-[10px] uppercase tracking-[0.3em] mb-4 block font-bold">04 / Kompleksowość</span>
+                    <h3 class="syne text-2xl md:text-3xl uppercase text-black mb-6 md:h-[70px] flex items-start">Realizacja od pomiaru <br>po montaż</h3>
+                    <p class="text-zinc-600 font-lexend font-light leading-relaxed max-w-xl">
+                        Przejmujemy pełną odpowiedzialność za cały proces. Nie musisz szukać oddzielnych ekip — my zajmiemy się wszystkim kompleksowo.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="kolekcje" class="relative py-16 md:py-32 w-full overflow-hidden bg-[#1a1a1a]">
+        
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop" 
+                 class="w-full h-full object-cover opacity-20 grayscale">
+            <div class="absolute inset-0 bg-gradient-to-b from-[#1a1a1a] via-[#1a1a1a]/80 to-[#1a1a1a]"></div>
+        </div>
+
+        <div class="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10">
+            
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-20 items-start reveal border-b-2 border-[#c5a358] pb-8 md:pb-12">
+                    <div class="lg:col-span-8">
+                        <h2 class="syne text-4xl md:text-[5vw] uppercase tracking-tighter leading-[0.85] text-white">
+                            Nie ograniczamy <br>Cię stałą ofertą
+                        </h2>
+                    </div>
+                    <div class="lg:col-span-4 lg:pt-2">
+                        <p class="text-white/60 text-base font-light leading-relaxed font-lexend">
+                            Zamiast narzucać gotowe rozwiązania, stajemy się częścią Twojego procesu twórczego. Dostarczamy materiały, które idealnie wpisują się w konkretny projekt.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 mb-20">
+                
+                    <div class="group relative aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-zinc-900 reveal rounded-2xl shadow-2xl">
+                        <img src="Diamond_1840x2453-1536x2048.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                        
+                        <div class="absolute bottom-0 left-0 right-0 p-8 flex flex-col justify-end">
+                            <span class="syne text-[#c5a358] text-xl font-bold block mb-2">01.</span>
+                            <h3 class="syne text-2xl uppercase mb-3 text-white">Unikalność wzoru</h3>
+                            <p class="text-white/70 text-sm font-light leading-relaxed font-lexend">
+                                Dobieramy użylenie i teksturę, które precyzyjnie odpowiadają założeniom Twojego moodboardu.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="group relative aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-zinc-900 reveal rounded-2xl shadow-2xl" style="transition-delay: 100ms;">
+                        <img src="antine-Laminam_Slate_04-Vulcano_Anteprima-02-copia-1024x1448.jpeg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                        
+                        <div class="absolute bottom-0 left-0 right-0 p-8 flex flex-col justify-end">
+                            <span class="syne text-[#c5a358] text-xl font-bold block mb-2">02.</span>
+                            <h3 class="syne text-2xl uppercase mb-3 text-white">Dowolny format</h3>
+                            <p class="text-white/70 text-sm font-light leading-relaxed font-lexend">
+                                Sprowadzamy płyty w wymiarach zapewniających minimalną ilość łączeń, niezależnie od skali projektu.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="group relative aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-zinc-900 reveal rounded-2xl shadow-2xl" style="transition-delay: 200ms;">
+                        <img src="IN-SIDE_1840x2453-1536x2048.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                        
+                        <div class="absolute bottom-0 left-0 right-0 p-8 flex flex-col justify-end">
+                            <span class="syne text-[#c5a358] text-xl font-bold block mb-2">03.</span>
+                            <h3 class="syne text-2xl uppercase mb-3 text-white">Globalny rynek</h3>
+                            <p class="text-white/70 text-sm font-light leading-relaxed font-lexend">
+                                Twoja wizja nie kończy się na katalogu. Mamy bezpośredni dostęp do fabryk we Włoszech i Hiszpanii.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="p-8 md:p-16 bg-zinc-900/60 backdrop-blur-md border border-white/5 reveal relative overflow-hidden rounded-r-2xl md:rounded-r-[3rem] shadow-2xl">
+                    <div class="absolute left-0 top-0 h-full w-[4px] bg-[#c5a358]"></div>
+                    
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
+                        <div class="max-w-2xl text-left">
+                            <h3 class="syne text-3xl md:text-5xl uppercase mb-6 leading-tight text-white">
+                                Dobieramy kolekcję <br>pod Twój design-projekt
+                            </h3>
+                            <p class="text-white/50 text-base font-light leading-relaxed font-lexend">
+                                Współpraca z nami to koniec kompromisów. Jeśli projekt wymaga konkretnego odcienia lub grubości, naszą rolą jest go odnaleźć.
+                            </p>
+                        </div>
+
+                        <div class="w-full md:w-auto flex justify-center md:block flex-shrink-0">
+                            <a href="#kontakt" class="group inline-flex items-center justify-start gap-6 syne uppercase text-[11px] tracking-[0.2em] font-bold bg-[#c5a358] text-black px-10 py-6 rounded-full hover:bg-white transition-all duration-500 whitespace-nowrap">
+                                Skonsultuj projekt
+                                <span class="transition-transform group-hover:translate-x-2">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+    </section>
+
+    <section id="realizacje" class="py-16 md:py-32 relative overflow-hidden bg-white">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&q=80" 
+                 class="w-full h-full object-cover opacity-10 grayscale" alt="Luxury Stone Interior">
+            <div class="absolute inset-0 bg-gradient-to-b from-white via-white/40 to-white"></div>
+        </div>
+
+        <div class="max-w-[1800px] mx-auto px-6 md:px-12 relative z-10">
+            
+            <div class="mb-16 md:mb-24 reveal relative inline-block group">
+                <h2 class="syne text-4xl md:text-[5vw] leading-[0.85] tracking-tighter uppercase text-zinc-900 pb-4 md:pb-6">
+                    Ostatnie <br>realizacje
+                </h2>
+                <div class="h-[2px] bg-[#c5a358] w-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <div class="reveal group flex flex-col">
+                    <div class="relative aspect-[3/4] rounded-2xl mb-8 overflow-hidden bg-zinc-100 shadow-xl border border-white/50">
+                        <div id="slider-1" class="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide h-full scroll-smooth">
+                            <div class="min-w-full h-full snap-center">
+                                <img src="post_10962_p20.jpg" class="w-full h-full object-cover" alt="Warszawa Mokotów">
+                            </div>
+                            <div class="min-w-full h-full snap-center">
+                                <img src="post_10962_p21.jpg" class="w-full h-full object-cover" alt="Warszawa Mokotów 2">
+                            </div>
+                        </div>
+
+                        <div class="absolute inset-0 flex items-center justify-between px-4 pointer-events-none">
+                            <button onclick="document.getElementById('slider-1').scrollBy({left: -300, behavior: 'smooth'})" 
+                                    class="w-10 h-10 bg-black/10 backdrop-blur-md text-white rounded-full flex items-center justify-center pointer-events-auto hover:bg-[#c5a358] transition-colors">
+                                <span class="text-lg">←</span>
+                            </button>
+                            <button onclick="document.getElementById('slider-1').scrollBy({left: 300, behavior: 'smooth'})" 
+                                    class="w-10 h-10 bg-black/10 backdrop-blur-md text-white rounded-full flex items-center justify-center pointer-events-auto hover:bg-[#c5a358] transition-colors">
+                                <span class="text-lg">→</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="border-l-[1.5px] border-[#c5a358] pl-6">
+                        <span class="syne text-[10px] uppercase tracking-[0.3em] text-zinc-400 mb-1 block font-light">Warszawa</span>
+                        <h3 class="syne text-2xl md:text-3xl uppercase text-zinc-900 font-bold tracking-tighter">Mokotów</h3>
+                    </div>
+                </div>
+
+                <div class="reveal group flex flex-col" style="transition-delay: 100ms;">
+                    <div class="relative aspect-[3/4] rounded-2xl mb-8 overflow-hidden bg-zinc-100 shadow-xl border border-white/50">
+                        <div id="slider-2" class="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide h-full scroll-smooth">
+                            <div class="min-w-full h-full snap-center"><img src="post_14239_p1.jpg" class="w-full h-full object-cover"></div>
+                            <div class="min-w-full h-full snap-center"><img src="post_14239_p2.jpg" class="w-full h-full object-cover"></div>
+                        </div>
+                        <div class="absolute inset-0 flex items-center justify-between px-4 pointer-events-none">
+                            <button onclick="document.getElementById('slider-2').scrollBy({left: -300, behavior: 'smooth'})" class="w-10 h-10 bg-black/10 backdrop-blur-md text-white rounded-full flex items-center justify-center pointer-events-auto hover:bg-[#c5a358] transition-colors">←</button>
+                            <button onclick="document.getElementById('slider-2').scrollBy({left: 300, behavior: 'smooth'})" class="w-10 h-10 bg-black/10 backdrop-blur-md text-white rounded-full flex items-center justify-center pointer-events-auto hover:bg-[#c5a358] transition-colors">→</button>
+                        </div>
+                    </div>
+                    <div class="border-l-[1.5px] border-[#c5a358] pl-6">
+                        <span class="syne text-[10px] uppercase tracking-[0.3em] text-zinc-400 mb-1 block font-light">Warszawa</span>
+                        <h3 class="syne text-2xl md:text-3xl uppercase text-zinc-900 font-bold tracking-tighter">Śródmieście</h3>
+                    </div>
+                </div>
+
+                <div class="reveal group flex flex-col" style="transition-delay: 200ms;">
+                    <div class="relative aspect-[3/4] rounded-2xl mb-8 overflow-hidden bg-zinc-100 shadow-xl border border-white/50">
+                        <div id="slider-3" class="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide h-full scroll-smooth">
+                            <div class="min-w-full h-full snap-center"><img src="post_13803_p12.jpg" class="w-full h-full object-cover"></div>
+                            <div class="min-w-full h-full snap-center"><img src="post_12773_p16.jpg" class="w-full h-full object-cover"></div>
+                        </div>
+                        <div class="absolute inset-0 flex items-center justify-between px-4 pointer-events-none">
+                            <button onclick="document.getElementById('slider-3').scrollBy({left: -300, behavior: 'smooth'})" class="w-10 h-10 bg-black/10 backdrop-blur-md text-white rounded-full flex items-center justify-center pointer-events-auto hover:bg-[#c5a358] transition-colors">←</button>
+                            <button onclick="document.getElementById('slider-3').scrollBy({left: 300, behavior: 'smooth'})" class="w-10 h-10 bg-black/10 backdrop-blur-md text-white rounded-full flex items-center justify-center pointer-events-auto hover:bg-[#c5a358] transition-colors">→</button>
+                        </div>
+                    </div>
+                    <div class="border-l-[1.5px] border-[#c5a358] pl-6">
+                        <span class="syne text-[10px] uppercase tracking-[0.3em] text-zinc-400 mb-1 block font-light">Warszawa</span>
+                        <h3 class="syne text-2xl md:text-3xl uppercase text-zinc-900 font-bold tracking-tighter">Wilanów</h3>
+                    </div>
+                </div>
+
+                <div class="reveal group flex flex-col" style="transition-delay: 300ms;">
+                    <div class="relative aspect-[3/4] rounded-2xl mb-8 overflow-hidden bg-zinc-100 shadow-xl border border-white/50">
+                        <div id="slider-4" class="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide h-full scroll-smooth">
+                            <div class="min-w-full h-full snap-center"><img src="post_10463_p16.jpg" class="w-full h-full object-cover"></div>
+                            <div class="min-w-full h-full snap-center"><img src="post_10463_p15.jpg" class="w-full h-full object-cover"></div>
+                        </div>
+                        <div class="absolute inset-0 flex items-center justify-between px-4 pointer-events-none">
+                            <button onclick="document.getElementById('slider-4').scrollBy({left: -300, behavior: 'smooth'})" class="w-10 h-10 bg-black/10 backdrop-blur-md text-white rounded-full flex items-center justify-center pointer-events-auto hover:bg-[#c5a358] transition-colors">←</button>
+                            <button onclick="document.getElementById('slider-4').scrollBy({left: 300, behavior: 'smooth'})" class="w-10 h-10 bg-black/10 backdrop-blur-md text-white rounded-full flex items-center justify-center pointer-events-auto hover:bg-[#c5a358] transition-colors">→</button>
+                        </div>
+                    </div>
+                    <div class="border-l-[1.5px] border-[#c5a358] pl-6">
+                        <span class="syne text-[10px] uppercase tracking-[0.3em] text-zinc-400 mb-1 block font-light">Warszawa</span>
+                        <h3 class="syne text-2xl md:text-3xl uppercase text-zinc-900 font-bold tracking-tighter">Saska Kępa</h3>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="kontakt" class="py-16 md:py-32 bg-zinc-900 text-white px-6 md:px-12 border-t border-zinc-800">
+        <div class="max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24">
+            
+            <div class="reveal">
+                <div class="reveal relative inline-block group mb-12 md:mb-16">
+                    <h2 class="syne text-5xl md:text-8xl uppercase leading-none tracking-tighter pb-4 md:pb-6 text-white">
+                        Zacznijmy <br> projekt?
+                    </h2>
+                    <div class="h-[2px] bg-[#c5a358] w-full"></div>
+                </div>
+
+                <div class="space-y-12">
+                    <div class="reveal">
+                        <p class="text-white text-[10px] uppercase tracking-[0.3em] mb-3 font-bold opacity-50">Biuro i Showroom</p>
+                        <p class="text-xl md:text-2xl font-light font-lexend text-zinc-300">ul. Wiejska 12, Warszawa</p>
+                    </div>
+                    
+                    <div class="reveal">
+                        <p class="text-white text-[10px] uppercase tracking-[0.3em] mb-3 font-bold opacity-50">Telefon</p>
+                        <a href="tel:+48797881549" class="text-xl md:text-2xl font-light font-lexend text-zinc-300">
+                            +48 787 881 549
+                        </a>
+                    </div>
+                    
+                    <div class="reveal">
+                        <p class="text-white text-[10px] uppercase tracking-[0.3em] mb-3 font-bold opacity-50">Email</p>
+                        <a href="mailto:wspolpraca@wielkiformat.pl" class="text-xl md:text-2xl font-light font-lexend text-zinc-300 hover:text-white transition-colors">
+                            wspolpraca@wielkiformat.pl
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reveal bg-white text-black p-8 md:p-16 relative overflow-hidden rounded-r-2xl md:rounded-r-[3rem] border border-zinc-200">
+                <div class="absolute left-0 top-0 h-full w-[4px] bg-[#c5a358]"></div>
+                
+                <form id="contact-form" class="space-y-8 md:space-y-12" onsubmit="event.preventDefault(); alert('Dziękujemy!');">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                        <div class="flex flex-col border-b border-zinc-200 focus-within:border-black transition-colors">
+                            <label class="text-[10px] uppercase tracking-widest font-bold text-zinc-400 mb-2">Imię i Nazwisko</label>
+                            <input type="text" required class="bg-transparent py-3 outline-none text-zinc-900 placeholder:text-zinc-200 font-lexend" placeholder="Jan Kowalski">
+                        </div>
+                        <div class="flex flex-col border-b border-zinc-200 focus-within:border-black transition-colors">
+                            <label class="text-[10px] uppercase tracking-widest font-bold text-zinc-400 mb-2">Studio / Architekt</label>
+                            <input type="text" class="bg-transparent py-3 outline-none text-zinc-900 placeholder:text-zinc-200 font-lexend" placeholder="Nazwa pracowni">
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col border-b border-zinc-200 focus-within:border-black transition-colors">
+                        <label class="text-[10px] uppercase tracking-widest font-bold text-zinc-400 mb-2">Adres Email</label>
+                        <input type="email" required class="bg-transparent py-3 outline-none text-zinc-900 placeholder:text-zinc-200 font-lexend" placeholder="kontakt@wielkiformat.pl">
+                    </div>
+                    
+                    <div class="flex flex-col border-b border-zinc-200 focus-within:border-black transition-colors">
+                        <label class="text-[10px] uppercase tracking-widest font-bold text-zinc-400 mb-2">Wiadomość / Projekt</label>
+                        <textarea rows="3" class="bg-transparent py-3 outline-none text-zinc-900 placeholder:text-zinc-200 font-lexend resize-none" placeholder="Opisz krótko swoje potrzeby..."></textarea>
+                    </div>
+
+                    <button type="submit" class="group flex items-center justify-center gap-6 w-full bg-[#c5a358] text-black py-6 syne text-[11px] uppercase tracking-[0.3em] font-bold hover:bg-black hover:text-white transition-all duration-500 rounded-full whitespace-nowrap">
+                        Wyślij zapytanie
+                        <span class="transition-transform group-hover:translate-x-2">→</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-zinc-900 text-zinc-500 py-16 px-6 border-t border-zinc-800">
+        <div class="max-w-[1800px] mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-12">
+                <div class="syne text-lg uppercase tracking-widest font-bold text-white">
+                    Wielki Format
+                    <p class="text-[9px] text-zinc-600 mt-2 font-light tracking-[0.4em]">Designed for Professionals</p>
+                </div>
+                
+                <div class="flex flex-wrap gap-8 md:gap-12 text-[10px] uppercase tracking-[0.2em] font-bold text-zinc-400">
+                    <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                    <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
+                    <a href="#" class="hover:text-white transition-colors">Pinterest</a>
+                </div>
+
+                <div class="text-[10px] uppercase tracking-widest text-zinc-600">
+                    © 2026 Wielki Format. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /**
+         * 1. ANIMACJA POJAWIANIA SIĘ (REVEAL)
+         * Sprawia, że bloki płynnie pojawiają się podczas przewijania
+         */
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            for (let i = 0; i < reveals.length; i++) {
+                let windowHeight = window.innerHeight;
+                let elementTop = reveals[i].getBoundingClientRect().top;
+                let elementVisible = 100; // próg pojawienia się w pikselach
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+
+        /**
+         * 2. LOGIKA NAWIGACJI (INWERSJA PASKA)
+         */
+        function handleNav() {
+            const nav = document.getElementById('nav');
+            const logoTextW = document.getElementById('logo-text-w');
+            const navCta = document.querySelector('nav a[href="#kontakt"]');
+            const mobileBtn = document.querySelector('header button');
+            // Wybieramy wszystkie elementy tekstowe (linki i części logo)
+            const textElements = document.querySelectorAll('nav a:not([href="#kontakt"]), .syne.flex.flex-col span');
+
+            if (window.scrollY > 50) {
+                if (nav) {
+                    // Efekt matowego szkła: czarne półprzezroczyste tło + rozmycie
+                    nav.classList.add('bg-black/80', 'backdrop-blur-md', 'shadow-2xl', 'py-4');
+                    nav.classList.remove('py-6', 'bg-transparent');
+                }
+
+                // Tekst pozostaje biały
+                textElements.forEach(el => {
+                    el.classList.remove('text-black');
+                    el.classList.add('text-white');
+                });
+
+                // Litera W w złotym kwadracie
+                if (logoTextW) {
+                    logoTextW.classList.remove('text-black');
+                    logoTextW.classList.add('text-white');
+                }
+
+                if (mobileBtn) {
+                    mobileBtn.classList.replace('text-black', 'text-white');
+                }
+
+                // Przycisk KONTAKT: Zawsze złoty
+                if (navCta) {
+                    navCta.classList.remove('bg-white', 'bg-black', 'text-white');
+                    navCta.classList.add('bg-[#c5a358]', 'text-black');
+                }
+            } else {
+                if (nav) {
+                    nav.classList.remove('bg-black/80', 'backdrop-blur-md', 'shadow-2xl', 'py-4');
+                    nav.classList.add('py-6');
+                }
+
+                // Powrót do kolorów początkowych
+                textElements.forEach(el => {
+                    el.classList.add('text-white');
+                });
+
+                if (logoTextW) {
+                    logoTextW.classList.add('text-white');
+                }
+
+                if (mobileBtn) {
+                    mobileBtn.classList.add('text-white');
+                }
+
+                // Przycisk KONTAKT: Powrót do złotego
+                if (navCta) {
+                    navCta.classList.remove('bg-white', 'bg-black', 'text-white');
+                    navCta.classList.add('bg-[#c5a358]', 'text-black');
+                }
+            }
+        }
+
+        /**
+         * 3. MENU MOBILNE
+         * Logika otwierania i zamykania menu na telefonach
+         */
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const body = document.body;
+
+            if (mobileMenu.classList.contains('translate-x-full')) {
+                // Otwórz menu
+                mobileMenu.classList.remove('translate-x-full');
+                // Zablokuj skrolowanie strony pod menu
+                body.style.overflow = 'hidden';
+            } else {
+                // Zamknij menu
+                mobileMenu.classList.add('translate-x-full');
+                // Przywróć skrolowanie
+                body.style.overflow = '';
+            }
+        }
+
+        // Uruchamianie funkcji podczas skrolowania
+        window.addEventListener('scroll', () => {
+            reveal();
+            handleNav();
+        });
+
+        /**
+         * 4. INICJALIZACJA (VIDEO, STARTUP)
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            // Uruchomienie wideo na ekranie głównym
+            const video = document.getElementById('hero-video');
+            if (video) {
+                video.muted = true;
+                video.play().catch(error => console.log("Autoplay blocked"));
+            }
+            
+            // Uruchomienie reveal od razu, jeśli jakieś bloki są już w strefie widoczności
+            reveal();
+            // Inicjalizacja stanu nawigacji
+            handleNav();
+        });
+    </script>
+
+    <div class="fixed bottom-0 left-0 right-0 z-[110] md:hidden bg-black/90 backdrop-blur-lg border-t border-white/10">
+        <div class="grid grid-cols-2 divide-x divide-white/10">
+            <a href="tel:+48123456789" class="flex items-center justify-center gap-3 py-5 hover:bg-zinc-900 transition-colors">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c5a358" stroke-width="2">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                <span class="syne text-[11px] uppercase tracking-[0.2em] font-bold text-white">Zadzwoń</span>
+            </a>
+
+            <a href="mailto:kontakt@wielkiformat.pl" class="flex items-center justify-center gap-3 py-5 hover:bg-zinc-900 transition-colors">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c5a358" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                <span class="syne text-[11px] uppercase tracking-[0.2em] font-bold text-white">Napisz</span>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
